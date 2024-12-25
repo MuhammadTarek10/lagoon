@@ -1,4 +1,5 @@
 using Lagoon.Infrastructure.Data;
+using Lagoon.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lagoon.Web.Controllers
@@ -14,12 +15,15 @@ namespace Lagoon.Web.Controllers
             _logger = logger;
         }
 
-
         public IActionResult Index()
         {
-            var villas = _context.Villas.ToList();
-            _logger.LogInformation("Villas fetched successfully");
+            IEnumerable<Villa> villas = _context.Villas.ToList();
             return View(villas);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
         }
     }
 }
