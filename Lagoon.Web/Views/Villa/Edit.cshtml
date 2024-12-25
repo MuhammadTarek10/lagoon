@@ -4,12 +4,13 @@
   <div class="card-header bg-success bg-gradient ml-0 py-3">
       <div class="row">
         <div class="col-12 text-center">
-          <h2 class="text-white py-2">Create Villa</h2>
+          <h2 class="text-white py-2">Edit Villa</h2>
         </div>
       </div>
   </div>
   <div class="card-body border p-4">
     <form class="row" method="post">
+      <input asp-for="Id" hidden />
       <div class="p-3">
         <div class="form-group py-1">
           <label asp-for="Name" class="form-label"></label>

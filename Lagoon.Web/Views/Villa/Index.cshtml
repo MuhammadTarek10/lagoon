@@ -35,10 +35,15 @@
               <td>@villa.Rooms</td>
               <td>@villa.Sqft</td>
               <td>
-                <a href="@Url.Action("Edit", new { id = villa.Id })">Edit</a> |
-                <a href="@Url.Action("Details", new { id = villa.Id })">Details</a> |
-                <a href="@Url.Action("Delete", new { id = villa.Id })">Delete</a>
-              </td>
+                <a href="@Url.Action("Edit", new { id = villa.Id })" class="btn btn-primary">
+                  <i class="bi bi-pencil"></i> Edit
+                </a>
+                <a href="@Url.Action("Details", new { id = villa.Id })" class="btn btn-info">
+                  <i class="bi bi-eye"></i> Details
+                </a>
+                <a href="@Url.Action("Delete", new { id = villa.Id })" class="btn btn-danger">
+                  <i class="bi bi-trash"></i> Delete
+                </a>
             </tr>
           }
         </tbody>

@@ -4,49 +4,50 @@
   <div class="card-header bg-success bg-gradient ml-0 py-3">
       <div class="row">
         <div class="col-12 text-center">
-          <h2 class="text-white py-2">Create Villa</h2>
+          <h2 class="text-white py-2">Delete Villa</h2>
         </div>
       </div>
   </div>
   <div class="card-body border p-4">
     <form class="row" method="post">
+      <input asp-for="Id" type="hidden" />
       <div class="p-3">
         <div class="form-group py-1">
           <label asp-for="Name" class="form-label"></label>
-          <input asp-for="Name" class="form-control border shadow" />
+          <input asp-for="Name" disabled class="form-control border shadow" />
           <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="form-group py-1">
           <label asp-for="Description" class="form-label"></label>
-          <input asp-for="Description" class="form-control border shadow" />
+          <input asp-for="Description" disabled class="form-control border shadow" />
           <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="form-group py-1">
           <label asp-for="Price" class="form-label"></label>
-          <input asp-for="Price" class="form-control border shadow" type="number" />
+          <input asp-for="Price" disabled class="form-control border shadow" type="number" />
           <span asp-validation-for="Price" class="text-danger"></span>
         </div>
         <div class="form-group py-1">
           <label asp-for="Sqft" class="form-label"></label>
-          <input asp-for="Sqft" class="form-control border shadow" type="number" />
+          <input asp-for="Sqft" disabled class="form-control border shadow" type="number" />
           <span asp-validation-for="Sqft" class="text-danger"></span>
         </div>
         <div class="form-group py-1">
           <label asp-for="Rooms" class="form-label"></label>
-          <input asp-for="Rooms" class="form-control border shadow" type="number"/>
+          <input asp-for="Rooms" disabled class="form-control border shadow" type="number"/>
           <span asp-validation-for="Rooms" class="text-danger"></span>
         </div>
         <div class="form-group py-1">
           <label asp-for="ImageUrl" class="form-label"></label>
-          <input asp-for="ImageUrl" class="form-control border shadow" />
+          <input asp-for="ImageUrl" disabled class="form-control border shadow" />
           <span asp-validation-for="ImageUrl" class="text-danger"></span>
         </div>
         <div asp-validaion-summary="ModelOnly"></div>
       </div>
       <div class="row pt-2">
         <div class="col-6 col-md-3">
-          <button type="submit" class="btn btn-success w-100">
-            <i class="bi bi-check-circle"></i> Submit
+          <button type="submit" class="btn btn-danger w-100">
+            <i class="bi bi-trash-fill"></i> Delete
           </button>
         </div>
         <div class="col-6 col-md-3">

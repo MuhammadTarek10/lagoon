@@ -25,5 +25,61 @@ namespace Lagoon.Web.Controllers
         {
             return View();
         }
+
+        [HttpPost, ActionName("Create")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Villa villa)
+        {
+            if (!ModelState.IsValid) return NotFound();
+
+            _context.Villas.Add(villa);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        public IActionResult Edit(Guid id)
+        {
+
+            Villa? villa = _context.Villas.Find(id);
+
+            if (villa == null) return NotFound();
+
+            return View(villa);
+        }
+
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Villa villa)
+        {
+            if (!ModelState.IsValid) return NotFound();
+
+            _context.Villas.Update(villa);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Delete(Guid id)
+        {
+            Villa? villa = _context.Villas.Find(id);
+
+            if (villa == null) return NotFound();
+
+            return View(villa);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(Villa villa)
+        {
+            if (villa == null) return NotFound();
+
+            _context.Villas.Remove(villa);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
