@@ -1,0 +1,30 @@
+@model IEnumerable<Lagoon.Domain.Entities.Villa>
+
+<h1>Villas</h1>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Rooms</th>
+      <th>Squre Feet</th>
+      <th>Actions</th>
+    </tr>
+    <tbody>
+      @foreach (var villa in Model)
+      {
+        <tr>
+          <td>@villa.Name</td>
+          <td>@villa.Price</td>
+          <td>@villa.Rooms</td>
+          <td>@villa.Sqft</td>
+          <td>
+            <a href="@Url.Action("Edit", new { id = villa.Id })">Edit</a> |
+            <a href="@Url.Action("Details", new { id = villa.Id })">Details</a> |
+            <a href="@Url.Action("Delete", new { id = villa.Id })">Delete</a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </thead>
+</table>
