@@ -5,6 +5,7 @@ namespace Lagoon.Application.Common.Interfaces
         IVillaRepository Villa { get; }
         IVillaNumberRepository VillaNumber { get; }
         IAmenityRepository Amenity { get; }
-        void Save();
+
+        Task SaveAsync(); // Asynchronous save operation
     }
 }

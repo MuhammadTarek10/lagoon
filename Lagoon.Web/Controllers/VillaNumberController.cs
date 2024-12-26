@@ -17,17 +17,17 @@ namespace Lagoon.Web.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<VillaNumber> villaNumbers = _unitOfWork.VillaNumber.GetAll(includeProperties: "Villa");
+            IEnumerable<VillaNumber> villaNumbers = await _unitOfWork.VillaNumber.GetAllAsync(includeProperties: "Villa");
             return View(villaNumbers);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             VillaNumberVM villaNumberVM = new VillaNumberVM
             {
-                VillaList = _unitOfWork.Villa.GetAll().Select(v => new SelectListItem
+                VillaList = (await _unitOfWork.Villa.GetAllAsync()).Select(v => new SelectListItem
                 {
                     Text = v.Name,
                     Value = v.Id.ToString()
@@ -39,23 +39,25 @@ namespace Lagoon.Web.Controllers
 
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(VillaNumber villaNumber)
+        public async Task<IActionResult> Create(VillaNumber villaNumber)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            _unitOfWork.VillaNumber.Add(villaNumber);
-            _unitOfWork.Save();
+            await _unitOfWork.VillaNumber.AddAsync(villaNumber);
+            await _unitOfWork.SaveAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Edit(int number)
+        public async Task<IActionResult> Edit(int number)
         {
+            VillaNumber? villaNumber = await _unitOfWork.VillaNumber.GetAsync(u => u.Number == number);
+            if (villaNumber == null) return NotFound();
 
             VillaNumberVM villaNumberVM = new VillaNumberVM
             {
-                VillaNumber = _unitOfWork.VillaNumber.Get(u => u.Number == number),
-                VillaList = _unitOfWork.Villa.GetAll().Select(v => new SelectListItem
+                VillaNumber = villaNumber,
+                VillaList = (await _unitOfWork.Villa.GetAllAsync()).Select(v => new SelectListItem
                 {
                     Text = v.Name,
                     Value = v.Id.ToString()
@@ -63,39 +65,37 @@ namespace Lagoon.Web.Controllers
             };
 
             return View(villaNumberVM);
-
         }
 
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(VillaNumber villaNumber)
+        public async Task<IActionResult> Edit(VillaNumber villaNumber)
         {
             if (!ModelState.IsValid) return BadRequest();
 
             _unitOfWork.VillaNumber.Update(villaNumber);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Delete(int number)
+        public async Task<IActionResult> Delete(int number)
         {
-            VillaNumber? villaNumber = _unitOfWork.VillaNumber.Get(u => u.Number == number);
-
+            VillaNumber? villaNumber = await _unitOfWork.VillaNumber.GetAsync(u => u.Number == number);
             if (villaNumber == null) return NotFound();
 
             _unitOfWork.VillaNumber.Remove(villaNumber);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(VillaNumber villaNumber)
+        public async Task<IActionResult> Delete(VillaNumber villaNumber)
         {
             _unitOfWork.VillaNumber.Remove(villaNumber);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
 
             return RedirectToAction(nameof(Index));
         }

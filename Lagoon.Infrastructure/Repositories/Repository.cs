@@ -16,22 +16,20 @@ namespace Lagoon.Infrastructure.Repositories
             dbSet = _context.Set<T>();
         }
 
+        // Synchronous Methods
         public void Add(T entity)
         {
             dbSet.Add(entity);
         }
 
-        public void Any(Expression<Func<T, bool>> filter)
+        public bool Any(Expression<Func<T, bool>> filter)
         {
-            dbSet.Any(filter);
+            return dbSet.Any(filter);
         }
 
         public T? Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
         {
-            IQueryable<T> query = dbSet;
-
-            if (tracked) query = dbSet;
-            else query = dbSet.AsNoTracking();
+            IQueryable<T> query = tracked ? dbSet : dbSet.AsNoTracking();
 
             if (filter != null) query = query.Where(filter);
 
@@ -48,12 +46,9 @@ namespace Lagoon.Infrastructure.Repositories
 
         public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null, bool tracked = false)
         {
-            IQueryable<T> query;
+            IQueryable<T> query = tracked ? dbSet : dbSet.AsNoTracking();
 
-            if (tracked) query = dbSet;
-            else query = dbSet.AsNoTracking();
-
-            if (filter != null) query = dbSet.Where(filter);
+            if (filter != null) query = query.Where(filter);
 
             if (!string.IsNullOrEmpty(includeProperties))
             {
@@ -64,12 +59,57 @@ namespace Lagoon.Infrastructure.Repositories
             }
 
             return query.ToList();
-
         }
 
         public void Remove(T entity)
         {
             dbSet.Remove(entity);
         }
+
+        // Asynchronous Methods
+        public async Task AddAsync(T entity)
+        {
+            await dbSet.AddAsync(entity);
+        }
+
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> filter)
+        {
+            return await dbSet.AnyAsync(filter);
+        }
+
+        public async Task<T?> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
+        {
+            IQueryable<T> query = tracked ? dbSet : dbSet.AsNoTracking();
+
+            if (filter != null) query = query.Where(filter);
+
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+
+            return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null, bool tracked = false)
+        {
+            IQueryable<T> query = tracked ? dbSet : dbSet.AsNoTracking();
+
+            if (filter != null) query = query.Where(filter);
+
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+
+            return await query.ToListAsync();
+        }
+
     }
 }

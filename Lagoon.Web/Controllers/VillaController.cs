@@ -1,4 +1,3 @@
-using Lagoon.Application.Common.Interfaces;
 using Lagoon.Application.Services.Interfaces;
 using Lagoon.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +15,9 @@ namespace Lagoon.Web.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<Villa> villas = _villaService.GetAllVillas();
-
+            IEnumerable<Villa> villas = await _villaService.GetAllVillasAsync();
             return View(villas);
         }
 
@@ -28,40 +26,38 @@ namespace Lagoon.Web.Controllers
             return View();
         }
 
-        [HttpPost, ActionName("Create")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Villa villa)
+        public async Task<IActionResult> Create(Villa villa)
         {
-            if (!ModelState.IsValid) return NotFound();
+            if (!ModelState.IsValid) return View(villa);
 
-            _villaService.AddVilla(villa);
-
+            await _villaService.AddVillaAsync(villa);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            Villa? villa = _villaService.GetVillaById(id);
+            Villa? villa = await _villaService.GetVillaByIdAsync(id);
 
             if (villa == null) return NotFound();
 
             return View(villa);
         }
 
-        [HttpPost, ActionName("Edit")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Villa villa)
+        public async Task<IActionResult> Edit(Villa villa)
         {
-            if (!ModelState.IsValid) return NotFound();
+            if (!ModelState.IsValid) return View(villa);
 
-            _villaService.UpdateVilla(villa);
-
+            await _villaService.UpdateVillaAsync(villa);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            Villa? villa = _villaService.GetVillaById(id);
+            Villa? villa = await _villaService.GetVillaByIdAsync(id);
 
             if (villa == null) return NotFound();
 
@@ -70,11 +66,10 @@ namespace Lagoon.Web.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(Villa villa)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            if (villa == null) return NotFound();
-
-            _villaService.DeleteVilla(villa.Id);
+            bool result = await _villaService.DeleteVillaAsync(id);
+            if (!result) return NotFound();
 
             return RedirectToAction(nameof(Index));
         }

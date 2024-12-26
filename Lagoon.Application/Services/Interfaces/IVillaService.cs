@@ -4,14 +4,14 @@ namespace Lagoon.Application.Services.Interfaces
 {
     public interface IVillaService
     {
-        IEnumerable<Villa> GetAllVillas();
-        Villa? GetVillaById(Guid id);
-        void AddVilla(Villa villa);
-        void UpdateVilla(Villa villa);
-        bool DeleteVilla(Guid id);
+        Task<IEnumerable<Villa>> GetAllVillasAsync();
+        Task<Villa?> GetVillaByIdAsync(Guid id);
+        Task AddVillaAsync(Villa villa);
+        Task UpdateVillaAsync(Villa villa);
+        Task<bool> DeleteVillaAsync(Guid id);
 
-        IEnumerable<Villa> GetVillasAvailabilityByDate(int nights, DateOnly checkInDate);
-        bool IsVillaAvailableByDate(int villaId, int nights, DateOnly checkInDate);
+        Task<IEnumerable<Villa>> GetVillasAvailabilityByDateAsync(int nights, DateOnly checkInDate);
+        Task<bool> IsVillaAvailableByDateAsync(int villaId, int nights, DateOnly checkInDate);
     }
-
 }
+

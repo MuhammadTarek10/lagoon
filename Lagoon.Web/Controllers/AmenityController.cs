@@ -17,17 +17,17 @@ namespace Lagoon.Web.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<Amenity> ameneties = _unitOfWork.Amenity.GetAll(includeProperties: "Villa");
-            return View(ameneties);
+            IEnumerable<Amenity> amenities = await _unitOfWork.Amenity.GetAllAsync(includeProperties: "Villa");
+            return View(amenities);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            AmenityVM amenityVM = new()
+            AmenityVM amenityVM = new AmenityVM
             {
-                VillaList = _unitOfWork.Villa.GetAll().Select(u => new SelectListItem
+                VillaList = (await _unitOfWork.Villa.GetAllAsync()).Select(u => new SelectListItem
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
@@ -38,22 +38,25 @@ namespace Lagoon.Web.Controllers
 
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Amenity amenity)
+        public async Task<IActionResult> Create(Amenity amenity)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            _unitOfWork.Amenity.Add(amenity);
-            _unitOfWork.Save();
+            await _unitOfWork.Amenity.AddAsync(amenity);
+            await _unitOfWork.SaveAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
+            Amenity? amenity = await _unitOfWork.Amenity.GetAsync(u => u.Id == id);
+            if (amenity == null) return NotFound();
+
             AmenityVM amenityVM = new()
             {
-                Amenity = _unitOfWork.Amenity.Get(u => u.Id == id),
-                VillaList = _unitOfWork.Villa.GetAll().Select(u => new SelectListItem
+                Amenity = amenity,
+                VillaList = (await _unitOfWork.Villa.GetAllAsync()).Select(u => new SelectListItem
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
@@ -61,38 +64,37 @@ namespace Lagoon.Web.Controllers
             };
 
             return View(amenityVM);
-
         }
 
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Amenity amenity)
+        public async Task<IActionResult> Edit(Amenity amenity)
         {
             if (!ModelState.IsValid) return BadRequest();
 
             _unitOfWork.Amenity.Update(amenity);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            Amenity? amenity = _unitOfWork.Amenity.Get(u => u.Id == id);
+            Amenity? amenity = await _unitOfWork.Amenity.GetAsync(u => u.Id == id);
 
             if (amenity == null) return NotFound();
 
             _unitOfWork.Amenity.Remove(amenity);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Details(Guid id)
+        public async Task<IActionResult> Details(Guid id)
         {
-            Amenity? amenity = _unitOfWork.Amenity.Get(u => u.Id == id);
+            Amenity? amenity = await _unitOfWork.Amenity.GetAsync(u => u.Id == id);
 
             if (amenity == null) return NotFound();
 

@@ -18,9 +18,9 @@ namespace Lagoon.Infrastructure.Repositories
             Amenity = new AmenityRepository(_context);
         }
 
-        public void Save()
+        public Task SaveAsync()
         {
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
     }
 }
