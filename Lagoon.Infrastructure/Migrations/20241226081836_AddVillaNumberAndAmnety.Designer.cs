@@ -3,6 +3,7 @@ using System;
 using Lagoon.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,14 +11,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lagoon.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241226081836_AddVillaNumberAndAmnety")]
+    partial class AddVillaNumberAndAmnety
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
-            modelBuilder.Entity("Lagoon.Domain.Entities.Amenity", b =>
+            modelBuilder.Entity("Lagoon.Domain.Entities.Amnety", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +42,7 @@ namespace Lagoon.Infrastructure.Migrations
 
                     b.HasIndex("VillaId");
 
-                    b.ToTable("Amenities");
+                    b.ToTable("Amneties");
                 });
 
             modelBuilder.Entity("Lagoon.Domain.Entities.Villa", b =>
@@ -101,7 +104,7 @@ namespace Lagoon.Infrastructure.Migrations
                     b.ToTable("VillaNumbers");
                 });
 
-            modelBuilder.Entity("Lagoon.Domain.Entities.Amenity", b =>
+            modelBuilder.Entity("Lagoon.Domain.Entities.Amnety", b =>
                 {
                     b.HasOne("Lagoon.Domain.Entities.Villa", "Villa")
                         .WithMany()

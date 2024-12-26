@@ -36,5 +36,8 @@ namespace Lagoon.Domain.Entities
 
         [NotMapped]
         public bool isAavailable { get; set; } = true;
+
+        [NotMapped]
+        public IEnumerable<Amenity>? Amenities { get; set; }
     }
 }

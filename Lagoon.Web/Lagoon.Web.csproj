@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lagoon.Infrastructure\Lagoon.Infrastructure.csproj" />
-    <ProjectReference Include="..\Lagoon.Application\Lagoon.Application.csproj" />
+    <ProjectReference Include="..\Lagoon.Domain\Lagoon.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

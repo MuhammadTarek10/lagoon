@@ -10,6 +10,8 @@ namespace Lagoon.Infrastructure.Data
         }
 
         public required DbSet<Villa> Villas { get; set; }
+        public required DbSet<VillaNumber> VillaNumbers { get; set; }
+        public required DbSet<Amenity> Amenities { get; set; }
 
     }
 }
