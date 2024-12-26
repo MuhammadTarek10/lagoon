@@ -1,9 +1,11 @@
 using Lagoon.Application.Services.Interfaces;
 using Lagoon.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lagoon.Web.Controllers
 {
+    [Authorize]
     public class VillaController : Controller
     {
         private readonly IVillaService _villaService;

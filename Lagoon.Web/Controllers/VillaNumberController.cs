@@ -1,11 +1,14 @@
 using Lagoon.Application.Common.Interfaces;
+using Lagoon.Application.Utilities;
 using Lagoon.Domain.Entities;
 using Lagoon.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Lagoon.Web.Controllers
 {
+    [Authorize(Roles = SD.AdminEndUser)]
     public class VillaNumberController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

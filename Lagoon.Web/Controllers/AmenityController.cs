@@ -3,9 +3,12 @@ using Lagoon.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Lagoon.Web.ViewModels;
+using Lagoon.Application.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Lagoon.Web.Controllers
 {
+    [Authorize(Roles = SD.AdminEndUser)]
     public class AmenityController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
