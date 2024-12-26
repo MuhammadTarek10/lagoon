@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Lagoon.Domain.Entities
 {
@@ -27,6 +29,9 @@ namespace Lagoon.Domain.Entities
         [Range(10, 10000)]
         public int Sqft { get; set; }
 
+        [NotMapped]
+        public IFormFile? Image { get; set; }
+
         [Display(Name = "Image Url")]
         [StringLength(250)]
         public string? ImageUrl { get; set; }
@@ -37,7 +42,7 @@ namespace Lagoon.Domain.Entities
         [NotMapped]
         public bool isAavailable { get; set; } = true;
 
-        [NotMapped]
+        [ValidateNever]
         public IEnumerable<Amenity>? Amenities { get; set; }
     }
 }

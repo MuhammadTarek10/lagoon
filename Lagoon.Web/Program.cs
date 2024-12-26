@@ -1,4 +1,6 @@
 using Lagoon.Application.Common.Interfaces;
+using Lagoon.Application.Services.Implementation;
+using Lagoon.Application.Services.Interfaces;
 using Lagoon.Infrastructure.Data;
 using Lagoon.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+// Services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IVillaService, VillaService>();
 
 var app = builder.Build();
 
