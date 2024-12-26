@@ -7,12 +7,10 @@ namespace Lagoon.Web.Controllers
     public class VillaController : Controller
     {
         private readonly IVillaService _villaService;
-        private readonly ILogger<VillaController> _logger;
 
         public VillaController(IVillaService villaService, ILogger<VillaController> logger)
         {
             _villaService = villaService;
-            _logger = logger;
         }
 
         public async Task<IActionResult> Index()

@@ -40,7 +40,7 @@ namespace Lagoon.Domain.Entities
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
         [NotMapped]
-        public bool isAavailable { get; set; } = true;
+        public bool isAvailable { get; set; } = true;
 
         [ValidateNever]
         public IEnumerable<Amenity>? Amenities { get; set; }

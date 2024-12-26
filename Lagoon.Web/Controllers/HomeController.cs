@@ -1,21 +1,31 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Lagoon.Web.Models;
+using Lagoon.Application.Services.Interfaces;
+using Lagoon.Web.ViewModels;
 
 namespace Lagoon.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly IVillaService _villaService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(IVillaService villaService)
     {
-        _logger = logger;
+        _villaService = villaService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        HomeVM homeVM = new HomeVM
+        {
+            VillaList = await _villaService.GetAllVillasAsync(),
+            CheckInDate = DateOnly.FromDateTime(DateTime.Now),
+            CheckOutDate = DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
+            Nights = 1
+        };
+
+        return View(homeVM);
     }
 
     public IActionResult Privacy()

@@ -104,7 +104,7 @@ namespace Lagoon.Infrastructure.Migrations
             modelBuilder.Entity("Lagoon.Domain.Entities.Amenity", b =>
                 {
                     b.HasOne("Lagoon.Domain.Entities.Villa", "Villa")
-                        .WithMany()
+                        .WithMany("Amenities")
                         .HasForeignKey("VillaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -121,6 +121,11 @@ namespace Lagoon.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Villa");
+                });
+
+            modelBuilder.Entity("Lagoon.Domain.Entities.Villa", b =>
+                {
+                    b.Navigation("Amenities");
                 });
 #pragma warning restore 612, 618
         }
