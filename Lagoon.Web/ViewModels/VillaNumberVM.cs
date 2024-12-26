@@ -6,9 +6,10 @@ namespace Lagoon.Web.ViewModels
 {
     public class VillaNumberVM
     {
-        public VillaNumber? Number { get; }
+        public VillaNumber? VillaNumber { get; set; }
 
         [ValidateNever]
-        public IEnumerable<SelectListItem>? VillaList { get; }
+        public IEnumerable<SelectListItem>? VillaList { get; set; }
     }
+
 }

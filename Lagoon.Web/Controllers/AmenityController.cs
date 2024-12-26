@@ -2,7 +2,7 @@ using Lagoon.Application.Common.Interfaces;
 using Lagoon.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using WhiteLagoon.Web.ViewModels;
+using Lagoon.Web.ViewModels;
 
 namespace Lagoon.Web.Controllers
 {
@@ -19,7 +19,7 @@ namespace Lagoon.Web.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Amenity> ameneties = _unitOfWork.Amenity.GetAll();
+            IEnumerable<Amenity> ameneties = _unitOfWork.Amenity.GetAll(includeProperties: "Villa");
             return View(ameneties);
         }
 
@@ -38,11 +38,11 @@ namespace Lagoon.Web.Controllers
 
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Amenity amnety)
+        public IActionResult Create(Amenity amenity)
         {
-            if (!ModelState.IsValid) return NotFound();
+            if (!ModelState.IsValid) return BadRequest();
 
-            _unitOfWork.Amenity.Add(amnety);
+            _unitOfWork.Amenity.Add(amenity);
             _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
@@ -66,11 +66,11 @@ namespace Lagoon.Web.Controllers
 
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Amenity amnety)
+        public IActionResult Edit(Amenity amenity)
         {
-            if (!ModelState.IsValid) return NotFound();
+            if (!ModelState.IsValid) return BadRequest();
 
-            _unitOfWork.Amenity.Update(amnety);
+            _unitOfWork.Amenity.Update(amenity);
             _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
@@ -78,11 +78,11 @@ namespace Lagoon.Web.Controllers
 
         public IActionResult Delete(Guid id)
         {
-            Amenity? amnety = _unitOfWork.Amenity.Get(u => u.Id == id);
+            Amenity? amenity = _unitOfWork.Amenity.Get(u => u.Id == id);
 
-            if (amnety == null) return NotFound();
+            if (amenity == null) return NotFound();
 
-            _unitOfWork.Amenity.Remove(amnety);
+            _unitOfWork.Amenity.Remove(amenity);
             _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
@@ -92,11 +92,11 @@ namespace Lagoon.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Details(Guid id)
         {
-            Amenity? amnety = _unitOfWork.Amenity.Get(u => u.Id == id);
+            Amenity? amenity = _unitOfWork.Amenity.Get(u => u.Id == id);
 
-            if (amnety == null) return NotFound();
+            if (amenity == null) return NotFound();
 
-            return View(amnety);
+            return View(amenity);
         }
     }
 }
