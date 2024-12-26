@@ -1,4 +1,4 @@
-using Lagoon.Infrastructure.Data;
+using Lagoon.Application.Common.Interfaces;
 using Lagoon.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,18 +6,18 @@ namespace Lagoon.Web.Controllers
 {
     public class VillaController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<VillaController> _logger;
 
-        public VillaController(ApplicationDbContext context, ILogger<VillaController> logger)
+        public VillaController(IUnitOfWork unitOfWork, ILogger<VillaController> logger)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Villa> villas = _context.Villas.ToList();
+            IEnumerable<Villa> villas = _unitOfWork.Villa.GetAll();
             return View(villas);
         }
 
@@ -32,17 +32,15 @@ namespace Lagoon.Web.Controllers
         {
             if (!ModelState.IsValid) return NotFound();
 
-            _context.Villas.Add(villa);
-            _context.SaveChanges();
+            _unitOfWork.Villa.Add(villa);
+            _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
         }
 
-
         public IActionResult Edit(Guid id)
         {
-
-            Villa? villa = _context.Villas.Find(id);
+            Villa? villa = _unitOfWork.Villa.Get(u => u.Id == id);
 
             if (villa == null) return NotFound();
 
@@ -55,15 +53,15 @@ namespace Lagoon.Web.Controllers
         {
             if (!ModelState.IsValid) return NotFound();
 
-            _context.Villas.Update(villa);
-            _context.SaveChanges();
+            _unitOfWork.Villa.Update(villa);
+            _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Delete(Guid id)
         {
-            Villa? villa = _context.Villas.Find(id);
+            Villa? villa = _unitOfWork.Villa.Get(u => u.Id == id);
 
             if (villa == null) return NotFound();
 
@@ -76,8 +74,8 @@ namespace Lagoon.Web.Controllers
         {
             if (villa == null) return NotFound();
 
-            _context.Villas.Remove(villa);
-            _context.SaveChanges();
+            _unitOfWork.Villa.Remove(villa);
+            _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
         }

@@ -1,4 +1,4 @@
-@model IEnumerable<Lagoon.Domain.Entities.Villa>
+@model IEnumerable<Villa>
 
 
 <div class="w-100 card border-0 p-4">
@@ -35,13 +35,10 @@
               <td>@villa.Rooms</td>
               <td>@villa.Sqft</td>
               <td>
-                <a href="@Url.Action("Edit", new { id = villa.Id })" class="btn btn-primary">
+                <a asp-controller="Villa" asp-action="Edit" asp-route-id="@villa.Id" class="btn btn-primary">
                   <i class="bi bi-pencil"></i> Edit
                 </a>
-                <a href="@Url.Action("Details", new { id = villa.Id })" class="btn btn-info">
-                  <i class="bi bi-eye"></i> Details
-                </a>
-                <a href="@Url.Action("Delete", new { id = villa.Id })" class="btn btn-danger">
+                <a asp-controller="Villa" asp-action="Delete" asp-route-id="@villa.Id" class="btn btn-danger">
                   <i class="bi bi-trash"></i> Delete
                 </a>
             </tr>

@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lagoon.Infrastructure\Lagoon.Infrastructure.csproj" />
+    <ProjectReference Include="..\Lagoon.Application\Lagoon.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
