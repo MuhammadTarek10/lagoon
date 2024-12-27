@@ -10,10 +10,7 @@ namespace Lagoon.Web.Controllers
     {
         private readonly IVillaService _villaService;
 
-        public VillaController(IVillaService villaService, ILogger<VillaController> logger)
-        {
-            _villaService = villaService;
-        }
+        public VillaController(IVillaService villaService, ILogger<VillaController> logger) => _villaService = villaService;
 
         public async Task<IActionResult> Index()
         {
@@ -21,10 +18,7 @@ namespace Lagoon.Web.Controllers
             return View(villas);
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -38,6 +32,7 @@ namespace Lagoon.Web.Controllers
 
         public async Task<IActionResult> Edit(Guid id)
         {
+
             Villa? villa = await _villaService.GetVillaByIdAsync(id);
 
             if (villa == null) return NotFound();

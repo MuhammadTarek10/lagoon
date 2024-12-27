@@ -5,7 +5,7 @@
 namespace Lagoon.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddBooking : Migration
+    public partial class FixBookingTypes : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

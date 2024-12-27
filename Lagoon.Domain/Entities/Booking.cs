@@ -13,7 +13,7 @@ namespace Lagoon.Domain.Entities
         [ForeignKey("User")]
         public string? UserId { get; set; }
         [ValidateNever]
-        public required ApplicationUser User { get; set; }
+        public ApplicationUser? User { get; set; }
 
         [Required]
         public string? Name { get; set; }
@@ -38,22 +38,22 @@ namespace Lagoon.Domain.Entities
         public string? Status { get; set; }
 
         [Display(Name = "Check-in date")]
-        public DateTime CheckIn { get; set; }
+        public DateOnly CheckInDate { get; set; }
 
         [Display(Name = "Check-out date")]
-        public DateTime CheckOut { get; set; }
+        public DateOnly CheckOutDate { get; set; }
 
         [Display(Name = "Booking date")]
         public DateTime BookingDate { get; set; } = DateTime.Now;
 
         public bool IsPaymentSuccessful { get; set; } = false;
-        public DateTime PaymentDate { get; set; }
+        public DateOnly PaymentDate { get; set; }
 
         public string? StripeSessionId { get; set; }
         public string? StripePaymentIntentId { get; set; }
 
-        public DateTime ActualCheckIn { get; set; }
-        public DateTime ActualCheckOut { get; set; }
+        public DateOnly ActualCheckIn { get; set; }
+        public DateOnly ActualCheckOut { get; set; }
 
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
