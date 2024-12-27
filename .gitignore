@@ -483,3 +483,7 @@ $RECYCLE.BIN/
 
 # Resources
 Project Resources/
+
+# Temporary Files
+*-wal
+*-shm

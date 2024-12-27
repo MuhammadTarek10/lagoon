@@ -9,6 +9,7 @@ namespace Lagoon.Infrastructure.Repositories
         public IVillaRepository Villa { get; private set; }
         public IVillaNumberRepository VillaNumber { get; private set; }
         public IAmenityRepository Amenity { get; private set; }
+        public IBookingRepository Booking { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -16,6 +17,7 @@ namespace Lagoon.Infrastructure.Repositories
             Villa = new VillaRepository(_context);
             VillaNumber = new VillaNumberRepository(_context);
             Amenity = new AmenityRepository(_context);
+            Booking = new BookingRepository(_context);
         }
 
         public Task SaveAsync()

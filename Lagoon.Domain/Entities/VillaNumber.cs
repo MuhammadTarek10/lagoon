@@ -11,7 +11,6 @@ namespace Lagoon.Domain.Entities
 
         [ForeignKey("Villa")]
         public Guid VillaId { get; set; }
-
         [ValidateNever]
         public required Villa Villa { get; set; }
 

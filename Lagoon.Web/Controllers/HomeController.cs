@@ -28,6 +28,17 @@ public class HomeController : Controller
         return View(homeVM);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> CheckAvailability(HomeVM homeVM)
+    {
+        if (!ModelState.IsValid) return View(nameof(Index), homeVM);
+
+        homeVM.VillaList = await _villaService.GetVillasAvailabilityByDateAsync(homeVM.Nights, homeVM.CheckInDate);
+
+        return PartialView("_VillaList", homeVM);
+    }
+
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
