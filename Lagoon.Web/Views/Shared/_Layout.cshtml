@@ -27,23 +27,19 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                       
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Villa" asp-action="Index">Villa</a>
+                                <a class="nav-link" asp-controller="Booking" asp-action="Index">Manage Bookings</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="VillaNumber" asp-action="Index">Villa Number</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Amenity" asp-action="Index">Amenity</a>
-                            </li>
+                       
                     </ul>
-                        <partial name="_LoginPartial" />
                     <div class="p-2 border rounded">
                         <div class="form-check form-switch" id="btnSwitch">
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                             <label class="form-check-label" for="flexSwitchCheckDefault">Mode</label>
                         </div>
                     </div>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
@@ -58,7 +54,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container text-center">
-                &copy; 2022 - Lagoon - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            Made with <i class="bi bi-heart-fill"></i> by DotNetMastery
         </div>
     </footer>
     @* jquery-ajax-unobtrusive@3.2.6 *@
@@ -81,3 +77,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

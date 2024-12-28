@@ -19,8 +19,8 @@ namespace Lagoon.Application.Services.Implementations
             {
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
-                SuccessUrl = domain + $"booking/BookingConfirmation?bookingId={booking.Id}",
-                CancelUrl = domain + $"booking/FinalizeBooking?villaId={booking.VillaId}&checkInDate={booking.CheckInDate}&nights={booking.Nights}",
+                SuccessUrl = domain + $"booking/BookingConfirmation?id={booking.Id}",
+                CancelUrl = domain + $"booking/FinalizeBooking?id={booking.VillaId}&checkInDate={booking.CheckInDate}&nights={booking.Nights}",
             };
 
 

@@ -30,6 +30,7 @@ builder.Services.Configure<IdentityOptions>(option => { option.Password.Required
 // Services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IVillaService, VillaService>();
+builder.Services.AddScoped<IVillaNumberService, VillaNumberService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 

@@ -1,3 +1,4 @@
+
 using System.Security.Claims;
 using Lagoon.Application.Services.Interfaces;
 using Lagoon.Application.Utilities;
@@ -9,28 +10,56 @@ using Stripe.Checkout;
 
 namespace Lagoon.Web.Controllers
 {
+    [Authorize]
     public class BookingController : Controller
     {
         private readonly IBookingService _bookingService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IVillaService _villaService;
+        private readonly IVillaNumberService _villaNumberService;
         private readonly IPaymentService _paymentService;
 
         public BookingController(IBookingService bookingService,
                                  UserManager<ApplicationUser> userManager,
                                  IVillaService villaService,
+                                 IVillaNumberService villaNumberService,
                                  IPaymentService paymentService)
         {
             _bookingService = bookingService;
             _userManager = userManager;
             _villaService = villaService;
+            _villaNumberService = villaNumberService;
             _paymentService = paymentService;
         }
 
+        [Authorize(Roles = SD.AdminEndUser)]
         public IActionResult Index()
         {
             return View();
         }
+
+        #region
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll(string? status = null)
+        {
+            IEnumerable<Booking> bookings;
+
+            if (User.IsInRole(SD.AdminEndUser)) bookings = await _bookingService.GetAllBookingsAsync();
+
+            else
+            {
+                string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                if (userId is null) return NotFound();
+
+                bookings = await _bookingService.GetAllBookingsAsync(userId, status);
+            }
+
+
+            return Json(new { data = bookings });
+        }
+
+        #endregion
 
         [Authorize]
         public async Task<IActionResult> FinalizeBooking(Guid id, DateOnly checkInDate, int nights)
@@ -60,6 +89,7 @@ namespace Lagoon.Web.Controllers
                 Email = user.Email,
                 Phone = user.PhoneNumber,
                 CheckInDate = checkInDate,
+                CheckOutDate = checkInDate.AddDays(nights),
                 Nights = nights,
                 TotalCost = villa.Price * nights
 
@@ -68,7 +98,6 @@ namespace Lagoon.Web.Controllers
             return View(booking);
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> FinalizeBooking(Booking booking)
         {
@@ -102,16 +131,14 @@ namespace Lagoon.Web.Controllers
             return new StatusCodeResult(303);
         }
 
-        public async Task<IActionResult> BookingConfirmation(Guid bookingId)
+        public async Task<IActionResult> BookingConfirmation(Guid id)
         {
-            Booking? booking = await _bookingService.GetBookingByIdAsync(bookingId);
+            Booking? booking = await _bookingService.GetBookingByIdAsync(id);
 
             if (booking == null) return NotFound();
 
             if (booking.Status == SD.StatusPending)
             {
-                // WARN:
-
                 // this is a pending order, we need to confirm if payment was successful
                 var service = new SessionService();
                 Session session = service.Get(booking.StripeSessionId);
@@ -121,11 +148,71 @@ namespace Lagoon.Web.Controllers
                     await _bookingService.UpdateStatus(booking.Id, SD.StatusApproved, 0);
                     await _bookingService.UpdateStripePaymentID(booking.Id, session.Id, session.PaymentIntentId);
 
-                    // _emailService.SendEmailAsync(bookingFromDb.Email, "Booking Confirmation - White Lagoon", "<p>Your booking has been confirmed. Booking ID - " + bookingFromDb.Id + "</p>");
+                    // _emailService.SendEmailAsync(booking.Email, "Booking Confirmation - Lagoon", "<p>Your booking has been confirmed. Booking ID - " + booking.Id + "</p>");
                 }
             }
 
             return View(booking);
+        }
+
+
+        public async Task<IActionResult> BookingDetails(Guid id)
+        {
+            Booking? booking = await _bookingService.GetBookingByIdAsync(id);
+
+            if (booking is null) return NotFound();
+
+            if (booking.VillaNumber == 0 && booking.Status == SD.StatusApproved)
+            {
+                List<int> availableVillaNumber = await AssignAvailableVillaNumberByVilla(booking.VillaId);
+
+                booking.VillaNumbers = (await _villaNumberService.GetAllVillaNumbersAsync()).Where(u => u.VillaId == booking.VillaId
+                && availableVillaNumber.Any(x => x == u.Number));
+            }
+
+            return View(booking);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = SD.AdminEndUser)]
+        public async Task<IActionResult> CheckIn(Booking booking)
+        {
+            await _bookingService.UpdateStatus(booking.Id, SD.StatusCheckedIn, booking.VillaNumber);
+            TempData["Success"] = "Booking Updated Successfully.";
+            return RedirectToAction(nameof(BookingDetails), new { id = booking.Id });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = SD.AdminEndUser)]
+        public async Task<IActionResult> CheckOut(Booking booking)
+        {
+            await _bookingService.UpdateStatus(booking.Id, SD.StatusCompleted, booking.VillaNumber);
+            TempData["Success"] = "Booking Completed Successfully.";
+            return RedirectToAction(nameof(BookingDetails), new { id = booking.Id });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = SD.AdminEndUser)]
+        public async Task<IActionResult> CancelBooking(Booking booking)
+        {
+            await _bookingService.UpdateStatus(booking.Id, SD.StatusCancelled, 0);
+            TempData["Success"] = "Booking Cancelled Successfully.";
+            return RedirectToAction(nameof(BookingDetails), new { id = booking.Id });
+        }
+
+        private async Task<List<int>> AssignAvailableVillaNumberByVilla(Guid id)
+        {
+            List<int> availableVillaNumbers = new();
+
+            IEnumerable<VillaNumber> villaNumbers = (await _villaNumberService.GetAllVillaNumbersAsync()).Where(u => u.VillaId == id);
+
+            IEnumerable<int> checkedInVilla = await _bookingService.GetCheckedInVillaNumbersAsync(id);
+
+            foreach (var villaNumber in villaNumbers)
+            {
+                if (!checkedInVilla.Contains(villaNumber.Number)) availableVillaNumbers.Add(villaNumber.Number);
+            }
+            return availableVillaNumbers;
         }
     }
 }

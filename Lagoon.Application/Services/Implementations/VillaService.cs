@@ -73,8 +73,8 @@ namespace Lagoon.Application.Services.Implementations
         {
             IEnumerable<Villa> villaList = await _unitOfWork.Villa.GetAllAsync(includeProperties: "Amenities");
             IEnumerable<VillaNumber> villaNumbersList = await _unitOfWork.VillaNumber.GetAllAsync();
-            IEnumerable<Booking> bookedVillas = await _unitOfWork.Booking.GetAllAsync(u => u.Status == SD.StatusApproved ||
-            u.Status == SD.StatusCheckedIn);
+            IEnumerable<Booking> bookedVillas = await _unitOfWork.Booking.GetAllAsync(u => u.Status == SD.StatusApproved
+                                                                                           || u.Status == SD.StatusCheckedIn);
 
             foreach (Villa villa in villaList)
             {
@@ -91,7 +91,7 @@ namespace Lagoon.Application.Services.Implementations
             return villaList;
         }
 
-        public async Task<bool> IsVillaAvailableByDateAsync(Guid villaId, int nights, DateOnly checkInDate)
+        public async Task<bool> IsVillaAvailableByDateAsync(Guid id, int nights, DateOnly checkInDate)
         {
             IEnumerable<VillaNumber> villaNumbersList = await _unitOfWork.VillaNumber.GetAllAsync();
 
@@ -99,7 +99,7 @@ namespace Lagoon.Application.Services.Implementations
             u.Status == SD.StatusCheckedIn);
 
             int roomAvailable = SD.VillaRoomsAvailable_Count
-                (villaId,
+                (id,
                  villaNumbersList,
                  checkInDate,
                  nights,

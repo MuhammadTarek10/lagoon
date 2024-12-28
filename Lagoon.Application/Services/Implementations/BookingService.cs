@@ -19,18 +19,18 @@ namespace Lagoon.Application.Services.Implementations
 
         public async Task<IEnumerable<Booking>> GetAllBookingsAsync(string? userId = null, string? statusFilterList = null)
         {
-            if (statusFilterList is null && userId is null) return await _unitOfWork.Booking.GetAllAsync(includeProperties: "User, Villa");
+            if (statusFilterList is null && userId is null) return await _unitOfWork.Booking.GetAllAsync(includeProperties: "User,Villa");
 
-            if (statusFilterList is null && userId is not null) return await _unitOfWork.Booking.GetAllAsync(u => u.UserId == userId, includeProperties: "User, Villa");
+            if (statusFilterList is null && userId is not null) return await _unitOfWork.Booking.GetAllAsync(u => u.UserId == userId, includeProperties: "User,Villa");
 
             IEnumerable<string> statusList = statusFilterList!.ToLower().Split(",");
 
-            if (userId is null) return await _unitOfWork.Booking.GetAllAsync(u => statusList.Contains(u.Status.ToLower()), includeProperties: "User, Villa");
+            if (userId is null) return await _unitOfWork.Booking.GetAllAsync(u => statusList.Contains(u.Status.ToLower()), includeProperties: "User,Villa");
 
-            return await _unitOfWork.Booking.GetAllAsync(u => statusList.Contains(u.Status.ToLower()) && u.UserId == userId, includeProperties: "User, Villa");
+            return await _unitOfWork.Booking.GetAllAsync(u => statusList.Contains(u.Status.ToLower()) && u.UserId == userId, includeProperties: "User,Villa");
         }
 
-        public async Task<Booking?> GetBookingByIdAsync(Guid bookingId) => await _unitOfWork.Booking.GetAsync(u => u.Id == bookingId, includeProperties: "User, Villa");
+        public async Task<Booking?> GetBookingByIdAsync(Guid bookingId) => await _unitOfWork.Booking.GetAsync(u => u.Id == bookingId, includeProperties: "User,Villa");
 
         public async Task<IEnumerable<int>> GetCheckedInVillaNumbersAsync(Guid villaId)
         {

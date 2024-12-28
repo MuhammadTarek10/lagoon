@@ -9,8 +9,9 @@ namespace Lagoon.Domain.Entities
         [Key]
         public int Number { get; set; }
 
+        [Required]
         [ForeignKey("Villa")]
-        public Guid VillaId { get; set; }
+        public required Guid VillaId { get; set; }
         [ValidateNever]
         public required Villa Villa { get; set; }
 

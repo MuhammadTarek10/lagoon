@@ -36,8 +36,8 @@ namespace Lagoon.Application.Utilities
                 }
 
                 int totalAvailableRooms = roomsInVilla - bookingInDate.Count;
-                if (totalAvailableRooms == 0) return 0;
 
+                if (totalAvailableRooms == 0) return 0;
                 else finalAvailableRoomForAllNights = Math.Min(finalAvailableRoomForAllNights, totalAvailableRooms);
             }
 
