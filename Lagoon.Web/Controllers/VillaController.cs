@@ -26,7 +26,7 @@ namespace Lagoon.Web.Controllers
         {
             if (!ModelState.IsValid) return View(villa);
 
-            await _villaService.AddVillaAsync(villa);
+            await _villaService.CreateVillaAsync(villa);
             return RedirectToAction(nameof(Index));
         }
 

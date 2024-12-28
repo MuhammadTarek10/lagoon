@@ -4,8 +4,9 @@ using Lagoon.Application.Services.Interfaces;
 using Lagoon.Domain.Entities;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
+using Lagoon.Application.Utilities;
 
-namespace Lagoon.Application.Services.Implementation
+namespace Lagoon.Application.Services.Implementations
 {
     public class VillaService : IVillaService
     {
@@ -20,18 +21,12 @@ namespace Lagoon.Application.Services.Implementation
             _logger = logger;
         }
 
-        public async Task AddVillaAsync(Villa villa)
+        public async Task CreateVillaAsync(Villa villa)
         {
             try
             {
-                if (villa.Image != null)
-                {
-                    villa.ImageUrl = SaveImage(villa.Image);
-                }
-                else
-                {
-                    villa.ImageUrl = DefaultImageUrl;
-                }
+                if (villa.Image != null) villa.ImageUrl = SaveImage(villa.Image);
+                else villa.ImageUrl = DefaultImageUrl;
 
                 await _unitOfWork.Villa.AddAsync(villa);
                 await _unitOfWork.SaveAsync();
@@ -74,16 +69,43 @@ namespace Lagoon.Application.Services.Implementation
             return await _unitOfWork.Villa.GetAsync(u => u.Id == id, includeProperties: "Amenities");
         }
 
-        public Task<IEnumerable<Villa>> GetVillasAvailabilityByDateAsync(int nights, DateOnly checkInDate)
+        public async Task<IEnumerable<Villa>> GetVillasAvailabilityByDateAsync(int nights, DateOnly checkInDate)
         {
-            // WARN: Implement this method
-            throw new NotImplementedException("This feature is under development");
+            IEnumerable<Villa> villaList = await _unitOfWork.Villa.GetAllAsync(includeProperties: "Amenities");
+            IEnumerable<VillaNumber> villaNumbersList = await _unitOfWork.VillaNumber.GetAllAsync();
+            IEnumerable<Booking> bookedVillas = await _unitOfWork.Booking.GetAllAsync(u => u.Status == SD.StatusApproved ||
+            u.Status == SD.StatusCheckedIn);
+
+            foreach (Villa villa in villaList)
+            {
+                int roomAvailable = SD.VillaRoomsAvailable_Count
+                    (villa.Id,
+                     villaNumbersList,
+                     checkInDate,
+                     nights,
+                     bookedVillas);
+
+                villa.IsAvailable = roomAvailable > 0 ? true : false;
+            }
+
+            return villaList;
         }
 
-        public Task<bool> IsVillaAvailableByDateAsync(int villaId, int nights, DateOnly checkInDate)
+        public async Task<bool> IsVillaAvailableByDateAsync(Guid villaId, int nights, DateOnly checkInDate)
         {
-            // WARN: Implement this method
-            throw new NotImplementedException("This feature is under development");
+            IEnumerable<VillaNumber> villaNumbersList = await _unitOfWork.VillaNumber.GetAllAsync();
+
+            IEnumerable<Booking> bookedVillas = await _unitOfWork.Booking.GetAllAsync(u => u.Status == SD.StatusApproved ||
+            u.Status == SD.StatusCheckedIn);
+
+            int roomAvailable = SD.VillaRoomsAvailable_Count
+                (villaId,
+                 villaNumbersList,
+                 checkInDate,
+                 nights,
+                 bookedVillas);
+
+            return roomAvailable > 0;
         }
 
         public async Task UpdateVillaAsync(Villa villa)

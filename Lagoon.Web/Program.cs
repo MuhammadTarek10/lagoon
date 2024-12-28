@@ -1,11 +1,12 @@
 using Lagoon.Application.Common.Interfaces;
-using Lagoon.Application.Services.Implementation;
+using Lagoon.Application.Services.Implementations;
 using Lagoon.Application.Services.Interfaces;
 using Lagoon.Domain.Entities;
 using Lagoon.Infrastructure.Data;
 using Lagoon.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,11 +18,24 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(option =>
+{
+    option.AccessDeniedPath = "/Account/AccessDenied";
+    option.LoginPath = "/Account/Login";
+});
+
+
+builder.Services.Configure<IdentityOptions>(option => { option.Password.RequiredLength = 6; });
+
 // Services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IVillaService, VillaService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 var app = builder.Build();
+
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -119,10 +119,10 @@ namespace Lagoon.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateOnly>("ActualCheckIn")
+                    b.Property<DateTime>("ActualCheckInDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateOnly>("ActualCheckOut")
+                    b.Property<DateTime>("ActualCheckOutDate")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("BookingDate")
@@ -151,13 +151,14 @@ namespace Lagoon.Infrastructure.Migrations
                     b.Property<int>("Nights")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateOnly>("PaymentDate")
+                    b.Property<DateTime>("PaymentDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Phone")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("StripePaymentIntentId")
@@ -178,6 +179,9 @@ namespace Lagoon.Infrastructure.Migrations
 
                     b.Property<Guid>("VillaId")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("VillaNumber")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

@@ -35,7 +35,7 @@ namespace Lagoon.Domain.Entities
         [Display(Name = "Number of nights")]
         public int Nights { get; set; }
 
-        public string? Status { get; set; }
+        public string Status { get; set; } = "Pending";
 
         [Display(Name = "Check-in date")]
         public DateOnly CheckInDate { get; set; }
@@ -47,13 +47,18 @@ namespace Lagoon.Domain.Entities
         public DateTime BookingDate { get; set; } = DateTime.Now;
 
         public bool IsPaymentSuccessful { get; set; } = false;
-        public DateOnly PaymentDate { get; set; }
+        public DateTime PaymentDate { get; set; }
 
         public string? StripeSessionId { get; set; }
         public string? StripePaymentIntentId { get; set; }
 
-        public DateOnly ActualCheckIn { get; set; }
-        public DateOnly ActualCheckOut { get; set; }
+        public DateTime ActualCheckInDate { get; set; }
+        public DateTime ActualCheckOutDate { get; set; }
+
+        public int VillaNumber { get; set; }
+
+        [NotMapped]
+        public IEnumerable<VillaNumber>? VillaNumbers { get; set; }
 
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
