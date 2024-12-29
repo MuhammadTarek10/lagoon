@@ -487,3 +487,12 @@ Project Resources/
 # Temporary Files
 *-wal
 *-shm
+
+# videos
+*.avi
+*.flv
+*.mkv
+*.mov
+*.mp4
+*.mpg
+*.wmv
