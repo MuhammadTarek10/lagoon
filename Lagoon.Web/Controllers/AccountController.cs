@@ -1,4 +1,3 @@
-
 using Lagoon.Application.Utilities;
 using Lagoon.Domain.Entities;
 using Lagoon.Web.ViewModels;
@@ -59,21 +58,15 @@ namespace Lagoon.Web.Controllers
                 return View(loginVM);
             }
 
-            if (await _userManager.IsInRoleAsync(user, SD.AdminEndUser)) return RedirectToAction("Index", "Dashboard");
+            if (await _userManager.IsInRoleAsync(user, SD.AdminEndUser)) return RedirectToAction(nameof(Index), "Dashboard");
 
-            if (string.IsNullOrEmpty(loginVM.RedirectUrl)) return RedirectToAction("Index", "Home");
+            if (string.IsNullOrEmpty(loginVM.RedirectUrl)) return RedirectToAction(nameof(Index), "Home");
 
             return LocalRedirect(loginVM.RedirectUrl);
         }
 
-        public async Task<IActionResult> Register(string? returnUrl = null)
+        public IActionResult Register(string? returnUrl = null)
         {
-            if (!(await _roleManager.RoleExistsAsync(SD.AdminEndUser)))
-            {
-                await _roleManager.CreateAsync(new IdentityRole(SD.AdminEndUser));
-                await _roleManager.CreateAsync(new IdentityRole(SD.CustomerEndUser));
-            }
-
             RegisterVM registerVM = new()
             {
                 RoleList = _roleManager.Roles.Select(r => new SelectListItem(r.Name, r.Name))
@@ -119,7 +112,7 @@ namespace Lagoon.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(Index), "Home");
         }
 
         public IActionResult AccessDenied()
