@@ -10,6 +10,16 @@ With its **scalable architecture** and **intuitive design**, Lagoon is perfect f
 
 ---
 
+## 🎥 Overview
+
+Watch the video below for a brief introduction to Lagoon and its features:
+
+[![Lagoon Overview](overview)](overview.mp4)
+
+> **Note**: Click the image to play the video.
+
+## This video provides a quick walkthrough of Lagoon’s functionality and how you can start using the platform to book villas and make payments.
+
 ## ✨ Features
 
 - 🏗️ **Clean Architecture**: Built for scalability and maintainability.
