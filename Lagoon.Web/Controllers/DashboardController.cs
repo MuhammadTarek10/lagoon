@@ -1,8 +1,11 @@
 using Lagoon.Application.Services.Interfaces;
+using Lagoon.Application.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lagoon.Web.Controllers
 {
+    [Authorize(Roles = SD.AdminEndUser)]
     public class DashboardController : Controller
     {
         private readonly IDashboardService _dashboardService;
