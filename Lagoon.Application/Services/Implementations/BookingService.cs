@@ -63,7 +63,7 @@ namespace Lagoon.Application.Services.Implementations
 
             Booking? booking = await _unitOfWork.Booking.GetAsync(m => m.Id == bookingId, tracked: true);
 
-            if (booking is null || string.IsNullOrEmpty(sessionId) || string.IsNullOrEmpty(paymentIntentId)) return;
+            if (booking is null) return;
 
             booking.StripeSessionId = sessionId;
             booking.StripePaymentIntentId = paymentIntentId;

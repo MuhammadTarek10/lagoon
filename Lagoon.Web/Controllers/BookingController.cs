@@ -1,4 +1,3 @@
-
 using System.Security.Claims;
 using Lagoon.Application.Services.Interfaces;
 using Lagoon.Application.Utilities;
@@ -32,7 +31,6 @@ namespace Lagoon.Web.Controllers
             _paymentService = paymentService;
         }
 
-        [Authorize(Roles = SD.AdminEndUser)]
         public IActionResult Index()
         {
             return View();
@@ -51,6 +49,8 @@ namespace Lagoon.Web.Controllers
             {
                 string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                 if (userId is null) return NotFound();
+
+                Console.WriteLine($"UserId: {userId}");
 
                 bookings = await _bookingService.GetAllBookingsAsync(userId, status);
             }
@@ -105,6 +105,7 @@ namespace Lagoon.Web.Controllers
 
             if (villa == null) return NotFound();
 
+            booking.Id = Guid.NewGuid();
             booking.TotalCost = villa.Price * booking.Nights;
             booking.Status = SD.StatusPending;
             booking.BookingDate = DateTime.Now;
@@ -118,7 +119,6 @@ namespace Lagoon.Web.Controllers
             }
 
             await _bookingService.CreateBookingAsync(booking);
-
 
             var domain = Request.Scheme + "://" + Request.Host.Value + "/";
 
@@ -147,12 +147,11 @@ namespace Lagoon.Web.Controllers
                 {
                     await _bookingService.UpdateStatus(booking.Id, SD.StatusApproved, 0);
                     await _bookingService.UpdateStripePaymentID(booking.Id, session.Id, session.PaymentIntentId);
-
                     // _emailService.SendEmailAsync(booking.Email, "Booking Confirmation - Lagoon", "<p>Your booking has been confirmed. Booking ID - " + booking.Id + "</p>");
                 }
             }
 
-            return View(booking);
+            return View(booking.Id);
         }
 
 
