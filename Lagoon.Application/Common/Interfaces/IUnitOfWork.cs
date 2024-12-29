@@ -6,7 +6,8 @@ namespace Lagoon.Application.Common.Interfaces
         IVillaNumberRepository VillaNumber { get; }
         IAmenityRepository Amenity { get; }
         IBookingRepository Booking { get; }
+        IApplicationUserRepository User { get; }
 
-        Task SaveAsync(); // Asynchronous save operation
+        Task SaveAsync();
     }
 }
