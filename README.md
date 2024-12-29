@@ -1,5 +1,17 @@
 # 🌊 Lagoon
 
+<!--toc:start-->
+
+- [🌊 Lagoon](#🌊-lagoon)
+  - [🎥 Overview](#🎥-overview)
+  - [✨ Features](#features)
+  - [🛠️ Prerequisites](#🛠️-prerequisites)
+  - [📦 Libraries Used](#📦-libraries-used)
+  - [🚀 Getting Started](#🚀-getting-started)
+    - [Installation](#installation)
+  - [📖 Project Structure](#📖-project-structure)
+  <!--toc:end-->
+
 **Lagoon** is a modern villa booking platform built with **ASP.NET Core MVC**, following **Clean Architecture** principles. Lagoon enables users to:
 
 - 🏡 Browse and book luxurious villas.
@@ -8,17 +20,16 @@
 
 With its **scalable architecture** and **intuitive design**, Lagoon is perfect for seamless booking experiences!
 
----
-
 ## 🎥 Overview
 
 Watch the video below for a brief introduction to Lagoon and its features:
 
-[![Lagoon Overview](overview)](overview.mp4)
+<video controls width="100%">
+  <source src="overview.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>overview)](overview.mp4)
 
-> **Note**: Click the image to play the video.
-
-## This video provides a quick walkthrough of Lagoon’s functionality and how you can start using the platform to book villas and make payments.
+This video provides a quick walkthrough of Lagoon’s functionality and how you can start using the platform to book villas and make payments.
 
 ## ✨ Features
 
@@ -29,16 +40,12 @@ Watch the video below for a brief introduction to Lagoon and its features:
 - 🧼 **Clean Code**: Easy to read, maintain, and extend.
 - 🤝 **User-Friendly Interface**: Simplifies the booking process for everyone.
 
----
-
 ## 🛠️ Prerequisites
 
 To run Lagoon, ensure you have:
 
 - **.NET CLI** or any **.NET SDK** installed on your system.
 - SQLite as the database engine.
-
----
 
 ## 📦 Libraries Used
 
@@ -50,8 +57,6 @@ Lagoon leverages the power of:
 - `Microsoft.EntityFrameworkCore.Design`
 - `Stripe.net`
 - `AspNetCore.Identity`
-
----
 
 ## 🚀 Getting Started
 
