@@ -24,10 +24,7 @@ With its **scalable architecture** and **intuitive design**, Lagoon is perfect f
 
 Watch the video below for a brief introduction to Lagoon and its features:
 
-<video controls width="100%">
-  <source src="overview.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Lagoon Overview]](overview.mp4)
 
 This video provides a quick walkthrough of Lagoon’s functionality and how you can start using the platform to book villas and make payments.
 
