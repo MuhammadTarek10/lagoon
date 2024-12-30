@@ -39,39 +39,39 @@ Explore Lagoon's features through the following screenshots:
 ### 🛠 Admin Features
 
 - **Admin Home Page**  
-  ![Admin Home Page](admin-home-page.png)
+  ![Admin Home Page](./screenshots/admin-home-page.png)
 
 - **Dashboard**  
-  ![Dashboard](dashboard.png)
+  ![Dashboard](./screenshots/dashboard.png)
 
 - **Villa Number List**  
-  ![Villa Number List](villa-number-list.png)
+  ![Villa Number List](./screenshots/villa-number-list.png)
 
 - **Amenity List**  
-  ![Amenity List](amenity-list.png)
+  ![Amenity List](./screenshots/amenity-list.png)
 
 - **Booking List**  
-  ![Booking List](booking-list.png)
+  ![Booking List](./screenshots/booking-list.png)
 
 ### 🌟 Customer Experience
 
 - **Customer Home Page**  
-  ![Customer Home Page](customer-home-page.png)
+  ![Customer Home Page](./screenshots/customer-home-page.png)
 
 - **Home Page**  
-  ![Home Page](home-page.png)
+  ![Home Page](./screenshots/home-page.png)
 
 - **Villa List**  
-  ![Villa List](villa-list.png)
+  ![Villa List](./screenshots/villa-list.png)
 
 - **Villa Details**  
-  ![Villa Details](villa-detials.png)
+  ![Villa Details](./screenshots/villa-detials.png)
 
 - **Finalize Booking**  
-  ![Finalize Booking](finalize-booking.png)
+  ![Finalize Booking](./screenshots/finalize-booking.png)
 
 - **Order Confirmed**  
-  ![Order Confirmed](order-confirmed.png)
+  ![Order Confirmed](./screenshots/order-confirmed.png)
 
 ---
 
