@@ -4,6 +4,10 @@
 
 - [🌊 Lagoon](#🌊-lagoon)
   - [🎥 Overview](#🎥-overview)
+  - [📸 Screenshots](#📸-screenshots)
+    - [🛠 Admin Features](#🛠-admin-features)
+    - [🌟 Customer Experience](#🌟-customer-experience)
+    - [💳 Authentication and Payment](#💳-authentication-and-payment)
   - [✨ Features](#features)
   - [🛠️ Prerequisites](#🛠️-prerequisites)
   - [📦 Libraries Used](#📦-libraries-used)
