@@ -115,7 +115,7 @@ Lagoon leverages the power of:
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/MuhammadTarek10/lagoon
    cd Lagoon
    dotnet run --project Lagoon.Web
    ```
