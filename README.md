@@ -78,10 +78,10 @@ Explore Lagoon's features through the following screenshots:
 ### 💳 Authentication and Payment
 
 - **Login Page**  
-  ![Login Page](login.png)
+  ![Login Page](./screenshots/login.png)
 
 - **Stripe Payment**  
-  ![Stripe Payment](stripe-payment.png)
+  ![Stripe Payment](./screenshots/stripe-payment.png)
 
 ## ✨ Features
 
