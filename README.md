@@ -73,8 +73,6 @@ Explore Lagoon's features through the following screenshots:
 - **Order Confirmed**  
   ![Order Confirmed](./screenshots/order-confirmed.png)
 
----
-
 ### 💳 Authentication and Payment
 
 - **Login Page**  
