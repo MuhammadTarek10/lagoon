@@ -8,10 +8,5 @@ namespace Lagoon.Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _context;
         public BookingRepository(ApplicationDbContext context) : base(context) => _context = context;
-
-        public void Update(Booking entity)
-        {
-            _context.Bookings.Update(entity);
-        }
     }
 }

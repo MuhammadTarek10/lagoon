@@ -16,55 +16,9 @@ namespace Lagoon.Infrastructure.Repositories
             dbSet = _context.Set<T>();
         }
 
-        // Synchronous Methods
-        public void Add(T entity)
-        {
-            dbSet.Add(entity);
-        }
+        public void Update(T entity) => dbSet.Update(entity);
 
-        public bool Any(Expression<Func<T, bool>> filter)
-        {
-            return dbSet.Any(filter);
-        }
-
-        public T? Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
-        {
-            IQueryable<T> query = tracked ? dbSet : dbSet.AsNoTracking();
-
-            if (filter != null) query = query.Where(filter);
-
-            if (!string.IsNullOrEmpty(includeProperties))
-            {
-                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    query = query.Include(includeProperty);
-                }
-            }
-
-            return query.FirstOrDefault();
-        }
-
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null, bool tracked = false)
-        {
-            IQueryable<T> query = tracked ? dbSet : dbSet.AsNoTracking();
-
-            if (filter != null) query = query.Where(filter);
-
-            if (!string.IsNullOrEmpty(includeProperties))
-            {
-                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    query = query.Include(includeProperty);
-                }
-            }
-
-            return query.ToList();
-        }
-
-        public void Remove(T entity)
-        {
-            dbSet.Remove(entity);
-        }
+        public void Remove(T entity) => dbSet.Remove(entity);
 
         // Asynchronous Methods
         public async Task AddAsync(T entity)

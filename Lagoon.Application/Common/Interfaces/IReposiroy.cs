@@ -9,5 +9,6 @@ namespace Lagoon.Application.Common.Interfaces
         Task AddAsync(T entity);
         Task<bool> AnyAsync(Expression<Func<T, bool>> filter);
         void Remove(T entity);
+        void Update(T entity);
     }
 }

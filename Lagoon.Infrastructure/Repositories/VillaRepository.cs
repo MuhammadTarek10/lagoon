@@ -8,11 +8,5 @@ namespace Lagoon.Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _context;
         public VillaRepository(ApplicationDbContext context) : base(context) => _context = context;
-
-        public void Update(Villa entity)
-        {
-            _context.Villas.Update(entity);
-        }
-
     }
 }
