@@ -28,6 +28,57 @@ Watch the video below for a brief introduction to Lagoon and its features:
 
 This video provides a quick walkthrough of Lagoon’s functionality and how you can start using the platform to book villas and make payments.
 
+## 📸 Screenshots
+
+Explore Lagoon's features through the following screenshots:
+
+### 🛠 Admin Features
+
+- **Admin Home Page**  
+  ![Admin Home Page](admin-home-page.png)
+
+- **Dashboard**  
+  ![Dashboard](dashboard.png)
+
+- **Villa Number List**  
+  ![Villa Number List](villa-number-list.png)
+
+- **Amenity List**  
+  ![Amenity List](amenity-list.png)
+
+- **Booking List**  
+  ![Booking List](booking-list.png)
+
+### 🌟 Customer Experience
+
+- **Customer Home Page**  
+  ![Customer Home Page](customer-home-page.png)
+
+- **Home Page**  
+  ![Home Page](home-page.png)
+
+- **Villa List**  
+  ![Villa List](villa-list.png)
+
+- **Villa Details**  
+  ![Villa Details](villa-detials.png)
+
+- **Finalize Booking**  
+  ![Finalize Booking](finalize-booking.png)
+
+- **Order Confirmed**  
+  ![Order Confirmed](order-confirmed.png)
+
+---
+
+### 💳 Authentication and Payment
+
+- **Login Page**  
+  ![Login Page](login.png)
+
+- **Stripe Payment**  
+  ![Stripe Payment](stripe-payment.png)
+
 ## ✨ Features
 
 - 🏗️ **Clean Architecture**: Built for scalability and maintainability.
